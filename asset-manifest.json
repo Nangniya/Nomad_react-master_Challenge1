@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/Nomad_react-master_Challenge1/static/js/main.2bcf4dce.js",
+    "main.js": "/Nomad_react-master_Challenge1/static/js/main.15d4e603.js",
     "index.html": "/Nomad_react-master_Challenge1/index.html",
-    "main.2bcf4dce.js.map": "/Nomad_react-master_Challenge1/static/js/main.2bcf4dce.js.map"
+    "main.15d4e603.js.map": "/Nomad_react-master_Challenge1/static/js/main.15d4e603.js.map"
   },
   "entrypoints": [
-    "static/js/main.2bcf4dce.js"
+    "static/js/main.15d4e603.js"
   ]
 }
