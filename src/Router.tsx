@@ -9,7 +9,7 @@ function Router() {
         <Route path="/Nomad_react-master_Challenge1/:coinId">
           <Coin />
         </Route>
-        <Route path="/Nomad_react-master_Challenge1">
+        <Route path="/Nomad_react-master_Challenge1/">
           <Coins />
         </Route>
       </Switch>
