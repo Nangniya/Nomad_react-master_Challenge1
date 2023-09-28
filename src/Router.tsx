@@ -4,12 +4,12 @@ import Coin from "./routes/Coin";
 
 function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
-        <Route path="/Nomad_react-master_Challenge1/:coinId">
+        <Route path="/:coinId">
           <Coin />
         </Route>
-        <Route path="/Nomad_react-master_Challenge1/">
+        <Route path="/">
           <Coins />
         </Route>
       </Switch>

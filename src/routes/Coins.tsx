@@ -94,7 +94,7 @@ function Coins() {
             <Coin key={coin.id}>
               <Link
                 to={{
-                  pathname: `Nomad_react-master_Challenge1/${coin.id}`,
+                  pathname: `/${coin.id}`,
                   state: { name: coin.name },
                 }}
               >
