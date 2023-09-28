@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import { Switch, Route } from "react-router";
 import styled from "styled-components";
@@ -6,7 +5,9 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "./api";
-import { HelmetProvider, Helmet } from "react-helmet-async";
+import { ToggleButton } from "./Coins";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface RouteParams {
   coinId: string;
@@ -21,7 +22,7 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -79,6 +80,15 @@ const Tab = styled.span<{ isActive: boolean }>`
   a {
     display: block;
   }
+`;
+
+const GoHome = styled.button`
+  background-color: ${(props) => props.theme.bgColor};
+  border: none;
+  color: ${(props) => props.theme.textColor};
+  border-radius: 50%;
+  width: 20%;
+  font-size: 30px;
 `;
 
 interface RouteState {
@@ -141,9 +151,9 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {}
-
 function Coin() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -159,24 +169,6 @@ function Coin() {
       refetchInterval: 5000,
     }
   );
-  // const [info, setInfo] = useState<InfoData>();
-  // const [priceInfo, setPriceInfo] = useState<PriceData>();
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     console.log(infoData);
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
-  //     console.log(priceData);
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]);
   const loading = infoLoading || tickerLoading;
   return (
     <Container>
@@ -184,9 +176,13 @@ function Coin() {
         {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
       </title>
       <Header>
+        <GoHome>
+          <Link to="/">◀</Link>
+        </GoHome>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
+        <ToggleButton onClick={toggleDarkAtom}>Toggle Mode</ToggleButton>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { fetchCoins } from "./api";
 import { useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
-import { HelmetProvider, Helmet } from "react-helmet-async";
 import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
@@ -15,14 +14,15 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
+  border: 3px solid ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
@@ -42,6 +42,7 @@ const Coin = styled.li`
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
   font-size: 48px;
+  align-self: center;
 `;
 
 const Loader = styled.span`
@@ -55,6 +56,14 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+export const ToggleButton = styled.button`
+  width: 20%;
+  background-color: ${(props) => props.theme.bgColor};
+  border: 2px solid ${(props) => props.theme.textColor};
+  color: ${(props) => props.theme.textColor};
+  border-radius: 15px;
+`;
+
 interface ICoin {
   id: string;
   name: string;
@@ -65,26 +74,17 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {}
-
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
-  // const [coins, setCoins] = useState<CoinInterface[]>([]);
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   (async () => {
 
-  //     setCoins(json.slice(0, 100));
-  //     setLoading(false);
-  //   })();
-  // }, []);
   return (
     <Container>
       <Header>
+        <div style={{ width: "20%" }}></div>
         <Title>코인</Title>
-        <button onClick={toggleDarkAtom}>Toggle Mode</button>
+        <ToggleButton onClick={toggleDarkAtom}>Toggle Mode</ToggleButton>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
