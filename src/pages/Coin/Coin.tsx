@@ -1,95 +1,17 @@
 import { Link, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import { Switch, Route } from "react-router";
-import styled from "styled-components";
-import Chart from "./Chart";
-import Price from "./Price";
+import * as S from "./Coin.styles";
+import Chart from "../Chart/Chart";
+import Price from "../Price/Price";
 import { useQuery } from "react-query";
-import { fetchCoinInfo, fetchCoinTickers } from "./api";
-import { ToggleButton } from "./Coins";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { ToggleButton } from "../Coins/Coins.styles";
 import { useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atoms";
+import { isDarkAtom } from "../../atoms";
 
 interface RouteParams {
   coinId: string;
 }
-
-const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 480px;
-  margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
-  font-size: 48px;
-`;
-
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-`;
-
-const Overview = styled.div`
-  display: flex;
-  justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
-  border-radius: 10px;
-`;
-
-const OverviewItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  span:first-child {
-    font-size: 10px;
-    font-weight: 400;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
-`;
-
-const Description = styled.p`
-  margin: 20px 0px;
-`;
-
-const Tabs = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin: 25px 0px;
-  gap: 10px;
-`;
-
-const Tab = styled.span<{ isActive: boolean }>`
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
-  border-radius: 10px;
-  color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
-  a {
-    display: block;
-  }
-`;
-
-const GoHome = styled.button`
-  background-color: ${(props) => props.theme.bgColor};
-  border: none;
-  color: ${(props) => props.theme.textColor};
-  border-radius: 50%;
-  width: 20%;
-  font-size: 30px;
-`;
 
 interface RouteState {
   name: string;
@@ -171,59 +93,59 @@ function Coin() {
   );
   const loading = infoLoading || tickerLoading;
   return (
-    <Container>
+    <S.Container>
       <title>
         {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
       </title>
-      <Header>
-        <GoHome>
+      <S.Header>
+        <S.GoHome>
           <Link to="/">◀</Link>
-        </GoHome>
-        <Title>
+        </S.GoHome>
+        <S.Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </Title>
+        </S.Title>
         <ToggleButton onClick={toggleDarkAtom}>Toggle Mode</ToggleButton>
-      </Header>
+      </S.Header>
       {loading ? (
-        <Loader>Loading...</Loader>
+        <S.Loader>Loading...</S.Loader>
       ) : (
         <>
-          <Overview>
-            <OverviewItem>
+          <S.Overview>
+            <S.OverviewItem>
               <span>Rank:</span>
               <span>{infoData?.rank}</span>
-            </OverviewItem>
-            <OverviewItem>
+            </S.OverviewItem>
+            <S.OverviewItem>
               <span>Symbol:</span>
               <span>${infoData?.symbol}</span>
-            </OverviewItem>
-            <OverviewItem>
+            </S.OverviewItem>
+            <S.OverviewItem>
               <span>Price:</span>
               <span>
                 {tickersData?.quotes.USD.price.toFixed(3) ? "Yes" : "No"}
               </span>
-            </OverviewItem>
-          </Overview>
-          <Description>{infoData?.description}</Description>
-          <Overview>
-            <OverviewItem>
+            </S.OverviewItem>
+          </S.Overview>
+          <S.Description>{infoData?.description}</S.Description>
+          <S.Overview>
+            <S.OverviewItem>
               <span>Total Suply:</span>
               <span>{tickersData?.total_supply}</span>
-            </OverviewItem>
-            <OverviewItem>
+            </S.OverviewItem>
+            <S.OverviewItem>
               <span>Max Supply:</span>
               <span>{tickersData?.max_supply}</span>
-            </OverviewItem>
-          </Overview>
+            </S.OverviewItem>
+          </S.Overview>
 
-          <Tabs>
-            <Tab isActive={chartMatch !== null}>
+          <S.Tabs>
+            <S.Tab isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>Chart</Link>
-            </Tab>
-            <Tab isActive={priceMatch !== null}>
+            </S.Tab>
+            <S.Tab isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>Price</Link>
-            </Tab>
-          </Tabs>
+            </S.Tab>
+          </S.Tabs>
 
           <Switch>
             <Route path="/:coinId/price">
@@ -235,7 +157,7 @@ function Coin() {
           </Switch>
         </>
       )}
-    </Container>
+    </S.Container>
   );
 }
 export default Coin;

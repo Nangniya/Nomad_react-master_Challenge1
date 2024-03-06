@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { fetchCoinTickers } from "./api";
-import styled from "styled-components";
+import { fetchCoinTickers } from "../api";
+import * as S from "./Price.styles";
 
 interface PriceProps {
   coinId: string;
@@ -40,27 +40,6 @@ interface PriceData {
   };
 }
 
-const Table = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  div {
-    display: flex;
-    padding: 10px;
-    p {
-      width: 25%;
-      display: flex;
-      align-items: flex-end;
-    }
-    span {
-      flex-grow: 1;
-      font-weight: bold;
-      color: hotpink;
-      font-size: 25px;
-    }
-  }
-`;
-
 function Price({ coinId }: PriceProps) {
   const { data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
@@ -70,7 +49,7 @@ function Price({ coinId }: PriceProps) {
     }
   );
   return (
-    <Table>
+    <S.Table>
       <div>
         <p>Price : </p>
         <span>{tickersData?.quotes.USD.price.toFixed(3).toLocaleString()}</span>
@@ -85,7 +64,7 @@ function Price({ coinId }: PriceProps) {
         <p>Market Cap: </p>
         <span>${tickersData?.quotes.USD.market_cap.toLocaleString()}</span>
       </div>
-    </Table>
+    </S.Table>
   );
 }
 export default Price;
